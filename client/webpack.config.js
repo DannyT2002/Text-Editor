@@ -5,23 +5,20 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 
 module.exports = () => {
   return {
-    mode: 'development', // Set mode to development for easier debugging
+    mode: 'production',
     entry: {
-      main: './src/js/index.js', // Entry point for the main application code
-      install: './src/js/install.js' // Entry point for the installation logic
+      main: './src/js/index.js',  // Adjusted to match directory structure
+      install: './src/js/install.js' // Adjusted to match directory structure
     },
     output: {
-      filename: '[name].bundle.js', // Output filename for bundles
-      path: path.resolve(__dirname, 'dist'), // Output directory for bundles
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist'),  // Adjusted to match directory structure
     },
     plugins: [
-      // Generates an HTML file and injects bundled JavaScript files
       new HtmlWebpackPlugin({
-        template: './src/index.html', // Path to the template HTML file
-        title: 'Text Editor', // Title of the HTML page
+        template: './index.html',  // Adjusted to match directory structure
+        title: 'Text Editor',
       }),
-
-      // Generates a manifest file for the PWA
       new WebpackPwaManifest({
         name: 'Text Editor',
         short_name: 'Editor',
@@ -32,33 +29,30 @@ module.exports = () => {
         display: 'standalone',
         icons: [
           {
-            src: path.resolve('src/assets/icon.png'), // Path to the icon image
-            sizes: [96, 128, 192, 256, 384, 512], // Sizes of the icon
-            destination: path.join('assets', 'icons'), // Directory to save the icons
+            src: path.resolve('src/images/logo.png'),  // Adjusted to match directory structure
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
           },
         ],
       }),
-
-      // Injects the service worker into the build
       new InjectManifest({
-        swSrc: './src/sw.js', // Path to the custom service worker source file
-        swDest: 'sw.js', // Output filename for the service worker
+        swSrc: './src-sw.js',  // Adjusted to match directory structure
+        swDest: 'sw.js',
       }),
     ],
-
     module: {
       rules: [
         {
-          test: /\.css$/, // Test for .css files
-          use: ['style-loader', 'css-loader'], // Loaders for CSS files
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.(js)$/, // Test for JavaScript files
-          exclude: /node_modules/, // Exclude node_modules directory
+          test: /\.(js)$/,
+          exclude: /node_modules/,
           use: {
-            loader: 'babel-loader', // Loader for transpiling JavaScript with Babel
+            loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env'], // Use Babel preset-env for JavaScript transpiling
+              presets: ['@babel/preset-env'],
             },
           },
         },
